@@ -1,4 +1,5 @@
 library(ggplot2)
+library(tidyverse)
 
 DD <- read.csv("DD 2021+2022.csv",na.strings = c("","NA"),header = TRUE)
 str(DD)
@@ -29,7 +30,7 @@ NB2022d <- function(x){
   1/(1+exp(16.03475-0.00870*x))
 }
 
-# Figure 3
+## Figure 3
 f3 <- ggplot(data=DD, aes(x = CDD, y = proportion)) +
   stat_function(fun = NJ2021d, size =1.5, aes(colour = "2021 NJ"), linetype = "longdash")+
   stat_function(fun = WL2021d, size =1.5, aes(colour = "2021 WL"), linetype = "longdash")+
@@ -73,3 +74,72 @@ f3 <- ggplot(data=DD, aes(x = CDD, y = proportion)) +
   annotate('text',label="WL",x=900,y=0.75,size=4)+ 
   annotate('text',label="NB",x=900,y=0.70,size=4)+
   geom_rect(aes(xmin=500,xmax=1000,ymin=0.625,ymax=1),fill="transparent",colour="black") # # rectangle
+
+
+## Figure 5
+infestation <- read.csv("Infestation 2021+2022.csv", na.strings = c("","NA"), header=TRUE)
+str(infestation)
+
+# makes Variety a categorical factor
+infestation$Variety <-as.factor(infestation$Variety) 
+
+# Plot
+levels(infestation$Variety) <- list(Bluecrop="C",Blueray="R",Elliott="E")
+
+y2021 <- infestation %>%
+  filter(Year == "2021")
+
+y2022 <- infestation %>%
+  filter(Year == "2022")
+
+p2021 <- ggplot(data = y2021, aes(x=Variety,y=Average_scars))+
+  geom_bar(stat="summary",color = 'black',aes(fill=Variety),width=0.4)+
+  scale_fill_manual(values=c("white","white","gray")) +
+  geom_errorbar(stat="summary",fun.data="mean_se",width=0.1)+
+  #ylab("Average egg scars/berry") + xlab("Variety") +
+  theme_classic() + labs(title = "(A) 2021", face = "bold") +
+  annotate("text", x=1, y=3.9, label="a", size = 10)+
+  annotate("text", x=2, y=6.6, label="b", size = 10)+
+  annotate("text", x=3, y=5.5, label="ab", size = 10) +
+  theme(axis.title = element_text(size = 20, face = "bold"),
+        plot.title = element_text(size = 20),
+        axis.text=element_text(size=18),
+        legend.position="none",
+        axis.title.x=element_blank(), axis.title.y=element_blank())
+
+p2022 <- ggplot(data = y2022, aes(x=Variety,y=Average_scars))+
+  geom_bar(stat="summary",color = 'black',aes(fill=Variety),width=0.4)+
+  scale_fill_manual(values=c("white","white","gray")) +
+  geom_errorbar(stat="summary",fun.data="mean_se",width=0.1)+
+  #ylab("Average egg scars/berry") + xlab("Variety") +
+  theme_classic() + labs(title = "(B) 2022", face = "bold") +
+  annotate("text", x=1, y=0.3, label="a", size = 10)+
+  annotate("text", x=2, y=0.4, label="a", size = 10)+
+  annotate("text", x=3, y=1, label="b", size = 10) +
+  theme(axis.title = element_text(size = 20, face = "bold"),
+        plot.title = element_text(size = 20),
+        axis.text=element_text(size=18),
+        legend.position="none",
+        axis.title.x=element_blank(), axis.title.y=element_blank())
+
+p <- ggplot(data = infestation, aes(x=Variety,y=Average_scars))+
+  geom_bar(stat="summary",color = 'black',aes(fill=Variety),width=0.4)+
+  scale_fill_manual(values=c("white","white","gray")) +
+  geom_errorbar(stat="summary",fun.data="mean_se",width=0.1)+
+  #ylab("Average egg scars/berry") + xlab("Variety") +
+  theme_classic() + labs(title = "(C) Combined", face = "bold") +
+  annotate("text", x=1, y=1.2, label="a", size = 10)+
+  annotate("text", x=2, y=1.9, label="ab", size = 10)+
+  annotate("text", x=3, y=2.3, label="b", size = 10) +
+  theme(axis.title = element_text(size = 20, face = "bold"),
+        plot.title = element_text(size = 20),
+        axis.text=element_text(size=18),
+        legend.position="none",
+        axis.title.x=element_blank(), axis.title.y=element_blank())
+
+f5 <- ggarrange(p2021,p2022,p,
+          ncol = 3, nrow = 1)
+
+annotate_figure(f5,  bottom = text_grob("Variety", face = "bold", size=20), 
+                left = text_grob("Average egg scars/berry",  face = "bold", size=20, rot = 90))
+
