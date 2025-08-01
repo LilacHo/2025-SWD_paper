@@ -12,7 +12,7 @@ logistic_model <- function(x, a, b) {
   1/(1+exp(a+b*x))
 }
 
-# takes your fitted logistic model and a target y value
+# takes in the fitted logistic model and a target y value
 # returns: the estimated x corresponding to y_target and the 95% confidence interval
 estimate_x_at_y <- function(fit, y_target, conf_level = 0.95) {
   # Extract coefficients
@@ -188,7 +188,7 @@ cat(paste0(result$conf_level*100, "% Confidence Interval: [",
 
 
 
-## WL2021 ############3
+## WL2021 ############
 WL2021 <- DD %>%
   filter(Year == 2021 & Location == "WL")
 
@@ -256,7 +256,7 @@ cat(paste0(result$conf_level*100, "% Confidence Interval: [",
 
 
 
-# NJ 2022#############
+## NJ 2022#############
 NJ2022 <- DD %>%
   filter(Year == 2022 & Location == "NJ")
 
@@ -323,7 +323,7 @@ cat(paste0(result$conf_level*100, "% Confidence Interval: [",
 
 
 
-# WL 2022################
+## WL 2022################
 WL2022 <- DD %>%
   filter(Year == 2022 & Location == "WL")
 
@@ -390,7 +390,7 @@ cat(paste0(result$conf_level*100, "% Confidence Interval: [",
 
 
 
-# NJ 2023###################
+## NJ 2023###################
 NJ2023 <- DD %>%
   filter(Year == 2023 & Location == "NJ")
 
@@ -457,7 +457,7 @@ cat(paste0(result$conf_level*100, "% Confidence Interval: [",
 
 
 
-# WL2023##############
+## WL2023##############
 WL2023 <- DD %>%
   filter(Year == 2023 & Location == "WL")
 
@@ -525,7 +525,7 @@ cat(paste0(result$conf_level*100, "% Confidence Interval: [",
 
 
 
-# NJ###################
+## NJ###################
 NJ <- DD %>%
   filter(Location == "NJ")
 
@@ -594,7 +594,7 @@ cat(paste0(result$conf_level*100, "% Confidence Interval: [",
 
 
 
-# WL###################
+## WL###################
 WL <- DD %>%
   filter(Location == "WL")
 
