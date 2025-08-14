@@ -1,5 +1,6 @@
 # R Version 4.4.2
 # Table 3
+# Preliminary result. Formal analysis by Statistica (Dell Inc).
 
 library(tidyverse)
 
@@ -657,4 +658,5 @@ cat("Estimate of x at y = 0.5:", result$x_estimate, "\n")
 cat("Standard Error:", result$standard_error, "\n")
 cat(paste0(result$conf_level*100, "% Confidence Interval: [", 
            result$conf_interval["lower.a"], ", ", result$conf_interval["upper.a"], "]\n"))
+
 
