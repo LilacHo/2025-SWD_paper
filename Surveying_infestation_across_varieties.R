@@ -1,5 +1,4 @@
 # R Version 4.2.1
-# Figure 3
 
 library(tidyverse)
 library(ggplot2)
@@ -124,3 +123,4 @@ mean(e2022$Average_scars) # 0.79
 sd(e2022$Average_scars)/sqrt(length((e2022$Average_scars))) # 0.12
 
 # Plot: Figure 3
+
